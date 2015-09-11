@@ -1,0 +1,25 @@
+{
+  "name": "spender",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ajatamayo/spender",
+  "description": "a really cool app",
+  "moduleType": [
+    "globals"
+  ],
+  "authors": [
+    "ajatamayo@gmail.com"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "swing": "~3.0.2"
+  }
+}
