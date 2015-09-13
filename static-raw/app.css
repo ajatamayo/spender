@@ -1,3 +1,15 @@
+/**
+ * Table of contents
+ *
+ *   I. Global
+ *  II. Main
+ * III. Utilities
+ */
+
+/**
+ * I. Global
+ */
+
 html {
   box-sizing: border-box;
 }
@@ -5,6 +17,14 @@ html {
 *, *:before, *:after {
   box-sizing: inherit;
 }
+
+body {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/**
+ * II. Main
+ */
 
 .stack {
   position: relative;
@@ -22,6 +42,93 @@ html {
   border: 10px solid #F1F1F1;
   border-radius: 5px;
 
-  box-shadow: 0 0 2px rgba(0, 0, 0, .2),
-              1px 1px 1px rgba(0, 0, 0, .2);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2),
+              1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.stack--form {
+  position: absolute;
+  width: 200px;
+  height: 300px;
+  padding: 0 30px;
+
+  border-radius: 5px;
+  background: #FFF;
+
+  -moz-box-shadow:    inset 0 0 10px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow:         inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.submit-button--text {
+  display: none;
+}
+
+.stack--form__income .submit-button--text__income,
+.stack--form__expense .submit-button--text__expense {
+  display: block;
+}
+
+.submit-button {
+  background: #FFF;
+  border-width: 1px;
+  color: #FFF;
+  width: 100%;
+  display: block;
+  border-radius: 3px;
+  border-width: 0;
+  height: 34px;
+  margin-top: 12px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2),
+              1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.stack--form__expense .submit-button {
+  background-color: #E55042;
+}
+
+.stack--form__income .submit-button {
+  background-color: #4046F7;
+}
+
+.money-input {
+  height: 34px;
+  border-radius: 3px;
+  border: 1px solid #DDD;
+  margin: 0 auto;
+  width: 100%;
+  display: block;
+  text-align: right;
+}
+
+.stack--form__expense .money-input {
+  border-color: #F4BEAB;
+  color: #E55042;
+}
+
+.stack--form__income .money-input {
+  border-color: #6BDEEF;
+  color: #4046F7;
+}
+
+/**
+ * III. Utilities
+ */
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aligner--child {
+  flex: 1;
 }
