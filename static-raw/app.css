@@ -18,8 +18,16 @@ html {
   box-sizing: inherit;
 }
 
-body {
+.g-neutral {
   background: rgba(0, 0, 0, 0.06);
+}
+
+.g-alert {
+  background: #F4BEAB;
+}
+
+.g-okaygo {
+  background: #6BDEEF;
 }
 
 /**
@@ -60,6 +68,18 @@ body {
   box-shadow:         inset 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
+.g-alert .stack--form {
+  -moz-box-shadow:    inset 0 0 10px #F4BEAB;
+  -webkit-box-shadow: inset 0 0 10px #F4BEAB;6BDEEF
+  box-shadow:         inset 0 0 10px #F4BEAB;
+}
+
+.g-okaygo .stack--form {
+  -moz-box-shadow:    inset 0 0 10px #6BDEEF;
+  -webkit-box-shadow: inset 0 0 10px #6BDEEF;
+  box-shadow:         inset 0 0 10px #6BDEEF;
+}
+
 .submit-button--text {
   display: none;
 }
@@ -81,13 +101,14 @@ body {
   margin-top: 12px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.2),
               1px 1px 1px rgba(0, 0, 0, 0.2);
+  outline: none;
 }
 
-.stack--form__expense .submit-button {
+.g-alert .submit-button {
   background-color: #E55042;
 }
 
-.stack--form__income .submit-button {
+.g-okaygo .submit-button {
   background-color: #4046F7;
 }
 
@@ -99,14 +120,15 @@ body {
   width: 100%;
   display: block;
   text-align: right;
+  outline: none;
 }
 
-.stack--form__expense .money-input {
+.g-alert .money-input {
   border-color: #F4BEAB;
   color: #E55042;
 }
 
-.stack--form__income .money-input {
+.g-okaygo .money-input {
   border-color: #6BDEEF;
   color: #4046F7;
 }
@@ -131,4 +153,29 @@ body {
 
 .aligner--child {
   flex: 1;
+}
+
+.glow-input {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid #DDD;
+}
+
+.glow-input:focus {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+}
+
+.g-alert .glow-input:focus {
+  border: 1px solid #E55042;
+}
+
+.g-okaygo .glow-input:focus {
+  border: 1px solid #4046F7;
 }

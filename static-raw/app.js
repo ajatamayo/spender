@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   // Get the stuffs
+  body = document.querySelector('body');
   main_form = document.querySelector('#main-form');
 
   // Prepare the cards in the stack for iteration.
@@ -24,7 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Add event listener for when a card is thrown in the stack, including the spring back into place effect.
   stack.on('throwin', function (e) {
-    console.log('Card has snapped back to the stack.');
+    removeClass(body, 'g-alert');
+    removeClass(body, 'g-okaygo');
   });
 
   // Add event listener for when the card is moved to determine what form should be shown below
@@ -33,12 +35,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (direction == 'right') {
       // Like! Income!
-      removeClass(main_form, 'stack--form__expense');
-      addClass(main_form, 'stack--form__income');
+      removeClass(body, 'g-alert');
+      addClass(body, 'g-okaygo');
+      removeClass(body, 'stack--form__expense');
+      addClass(body, 'stack--form__income');
     } else {
       // Dislike! Expense!
-      removeClass(main_form, 'stack--form__income');
-      addClass(main_form, 'stack--form__expense');
+      removeClass(body, 'g-okaygo');
+      addClass(body, 'g-alert');
+      removeClass(body, 'stack--form__income');
+      addClass(body, 'stack--form__expense');
     }
   });
 });
