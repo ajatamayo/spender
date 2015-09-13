@@ -1,0 +1,27 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.stack {
+  position: relative;
+  margin: 0 auto;
+  width: 200px;
+  height: 300px;
+}
+
+.stack--card {
+  position: absolute;
+  width: 200px;
+  height: 300px;
+
+  background: #FFF;
+  border: 10px solid #F1F1F1;
+  border-radius: 5px;
+
+  box-shadow: 0 0 2px rgba(0, 0, 0, .2),
+              1px 1px 1px rgba(0, 0, 0, .2);
+}
