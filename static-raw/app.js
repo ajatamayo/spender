@@ -9,14 +9,21 @@ var SPENDER = (function(SPENDER) {
       el.classList.add(className);
     else
       el.className += ' ' + className;
-  }
+  };
 
   var removeClass = function(el, className) {
     if (el.classList)
       el.classList.remove(className);
     else
       el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-  }
+  };
+
+  var hasClass = function(el, className) {
+    if (el.classList)
+      return el.classList.contains(className);
+    else
+      return new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
+  };
 
   /**
    * Retrieves element transformation as a matrix
@@ -81,6 +88,7 @@ var SPENDER = (function(SPENDER) {
     SPENDER.body = document.querySelector('body');
     SPENDER.main_form = document.querySelector('#main-form');
     SPENDER.submit_button = document.querySelector('#submit-button');
+    SPENDER.money_input = document.querySelector('#money-input');
   };
 
   SPENDER.initializeStack = function() {
@@ -151,10 +159,64 @@ var SPENDER = (function(SPENDER) {
 
     e.preventDefault();
 
+    SPENDER.processInput();
+
+    SPENDER.throwTheCardBackIn();
+  };
+
+  SPENDER.processInput = function() {
+    var is_income = hasClass(SPENDER.main_form, 'stack--form__income');
+    var value = parseFloat(SPENDER.money_input.value);
+    if (isFinite(value)) {
+      if (is_income) {
+        SPENDER.addIncome(value);
+      } else {
+        SPENDER.addExpense(value);
+      }
+    }
+    SPENDER.money_input.value = '';
+  };
+
+  SPENDER.throwTheCardBackIn = function() {
     var matrix = cssToMatrix('card'),
         transformObj = matrixToTransformObj(matrix);
 
     SPENDER.card.throwIn(transformObj.translateX, transformObj.translateY);
+  };
+
+  SPENDER.addIncome = function(value) {
+    var total_incomes = localStorage.getItem('total_incomes');
+    if (total_incomes == null) {
+      total_incomes = 0;
+    } else {
+      total_incomes = parseFloat(total_incomes);
+    }
+
+    total_incomes += value;
+    localStorage.setItem('total_incomes', total_incomes);
+  };
+
+  SPENDER.addExpense = function(value) {
+    var total_expenses = localStorage.getItem('total_expenses');
+    if (total_expenses == null) {
+      total_expenses = 0;
+    } else {
+      total_expenses = parseFloat(total_expenses);
+    }
+    total_expenses += value;
+    localStorage.setItem('total_expenses', total_expenses);
+  };
+
+  SPENDER.getTotalIncome = function() {
+    var total_incomes = localStorage.getItem('total_incomes');
+    if (total_incomes == null) total_incomes = 0;
+    return parseFloat(total_incomes);
+  };
+
+  SPENDER.getTotalExpenses = function() {
+    var total_expenses = localStorage.getItem('total_expenses');
+    if (total_expenses == null) total_expenses = 0;
+    return parseFloat(total_expenses);
   };
 
   return SPENDER;
