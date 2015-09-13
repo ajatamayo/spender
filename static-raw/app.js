@@ -81,6 +81,7 @@ var SPENDER = (function(SPENDER) {
       SPENDER.initializeControls();
       SPENDER.initializeStack();
       SPENDER.initializeFormSubmissionHandlers();
+      SPENDER.updatePieChart();
     });
   };
 
@@ -89,6 +90,8 @@ var SPENDER = (function(SPENDER) {
     SPENDER.main_form = document.querySelector('#main-form');
     SPENDER.submit_button = document.querySelector('#submit-button');
     SPENDER.money_input = document.querySelector('#money-input');
+    SPENDER.total_income = document.querySelector('#total-income');
+    SPENDER.total_expenses = document.querySelector('#total-expenses');
   };
 
   SPENDER.initializeStack = function() {
@@ -161,6 +164,8 @@ var SPENDER = (function(SPENDER) {
 
     SPENDER.processInput();
 
+    SPENDER.updatePieChart();
+
     SPENDER.throwTheCardBackIn();
   };
 
@@ -185,15 +190,15 @@ var SPENDER = (function(SPENDER) {
   };
 
   SPENDER.addIncome = function(value) {
-    var total_incomes = localStorage.getItem('total_incomes');
-    if (total_incomes == null) {
-      total_incomes = 0;
+    var total_income = localStorage.getItem('total_income');
+    if (total_income == null) {
+      total_income = 0;
     } else {
-      total_incomes = parseFloat(total_incomes);
+      total_income = parseFloat(total_income);
     }
 
-    total_incomes += value;
-    localStorage.setItem('total_incomes', total_incomes);
+    total_income += value;
+    localStorage.setItem('total_income', total_income);
   };
 
   SPENDER.addExpense = function(value) {
@@ -208,15 +213,20 @@ var SPENDER = (function(SPENDER) {
   };
 
   SPENDER.getTotalIncome = function() {
-    var total_incomes = localStorage.getItem('total_incomes');
-    if (total_incomes == null) total_incomes = 0;
-    return parseFloat(total_incomes);
+    var total_income = localStorage.getItem('total_income');
+    if (total_income == null) total_income = 0;
+    return parseFloat(total_income);
   };
 
   SPENDER.getTotalExpenses = function() {
     var total_expenses = localStorage.getItem('total_expenses');
     if (total_expenses == null) total_expenses = 0;
     return parseFloat(total_expenses);
+  };
+
+  SPENDER.updatePieChart = function() {
+    SPENDER.total_income.innerHTML = SPENDER.getTotalIncome();
+    SPENDER.total_expenses.innerHTML = SPENDER.getTotalExpenses();
   };
 
   return SPENDER;
