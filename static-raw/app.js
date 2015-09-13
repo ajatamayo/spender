@@ -19,6 +19,53 @@ var SPENDER = (function(SPENDER) {
   }
 
   /**
+   * Retrieves element transformation as a matrix
+   *
+   * Note that this will only take translate and rotate in account,
+   * also it always reports px and deg, never % or turn!
+   * 
+   * @param element
+   * @return string matrix
+   */
+  var cssToMatrix = function(elementId) {
+    var element = document.getElementById(elementId),
+        style = window.getComputedStyle(element);
+
+    return style.getPropertyValue("-webkit-transform") ||
+           style.getPropertyValue("-moz-transform") ||
+           style.getPropertyValue("-ms-transform") ||
+           style.getPropertyValue("-o-transform") ||
+           style.getPropertyValue("transform");
+  }
+
+  /**
+   * Transforms matrix into an object
+   * 
+   * @param string matrix
+   * @return object
+   */
+  var matrixToTransformObj = function(matrix) {
+    // this happens when there was no rotation yet in CSS
+    if(matrix === 'none') {
+      matrix = 'matrix(0,0,0,0,0)';
+    }
+    var obj = {},
+        values = matrix.match(/([-+]?[\d\.]+)/g);
+
+    obj.rotate = (Math.round(
+      Math.atan2(
+        parseFloat(values[1]), 
+        parseFloat(values[0])) * (180/Math.PI)) || 0
+    ).toString() + 'deg';
+    obj.translate = values[5] ? values[4] + 'px, ' + values[5] + 'px' : (values[4] ? values[4] + 'px' : '');
+
+    obj.translateX = values[4] ? parseInt(values[4]) : 0;
+    obj.translateY = values[5] ? parseInt(values[5]) : 0;
+
+    return obj;
+  }
+
+  /**
    * Start of actual cool stuff
    */
 
@@ -26,12 +73,14 @@ var SPENDER = (function(SPENDER) {
     document.addEventListener('DOMContentLoaded', function () {
       SPENDER.initializeControls();
       SPENDER.initializeStack();
+      SPENDER.initializeFormSubmissionHandlers();
     });
   };
 
   SPENDER.initializeControls = function() {
     SPENDER.body = document.querySelector('body');
     SPENDER.main_form = document.querySelector('#main-form');
+    SPENDER.submit_button = document.querySelector('#submit-button');
   };
 
   SPENDER.initializeStack = function() {
@@ -43,7 +92,7 @@ var SPENDER = (function(SPENDER) {
 
     cards.forEach(function (targetElement) {
       // Add card element to the Stack.
-      stack.createCard(targetElement);
+      SPENDER.card = stack.createCard(targetElement);
     });
 
     // Add event listener for when a card is thrown out of the stack.
@@ -91,6 +140,21 @@ var SPENDER = (function(SPENDER) {
     addClass(SPENDER.body, 'g-alert');
     removeClass(SPENDER.main_form, 'stack--form__income');
     addClass(SPENDER.main_form, 'stack--form__expense');
+  };
+
+  SPENDER.initializeFormSubmissionHandlers = function() {
+    SPENDER.main_form.addEventListener('submit', SPENDER.onFormsubmit);
+  };
+
+  SPENDER.onFormsubmit = function(e) {
+    console.log('Form was submitted!');
+
+    e.preventDefault();
+
+    var matrix = cssToMatrix('card'),
+        transformObj = matrixToTransformObj(matrix);
+
+    SPENDER.card.throwIn(transformObj.translateX, transformObj.translateY);
   };
 
   return SPENDER;
